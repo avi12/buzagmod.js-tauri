@@ -1,0 +1,24 @@
+.s-card.dropzone {
+  position: relative;
+  width: 90%;
+  height: 90%;
+
+  // Maximize the card size to fill the dropzone area
+  padding: 0 !important;
+}
+
+.theme--dark .s-card.outlined {
+  border-color: white;
+}
+
+.theme--dark {
+  .drag-over {
+    &--hover {
+      background-color: hsl(0, 0%, 30%) !important;
+    }
+
+    &--error {
+      background-color: hsl(4, 90%, 20%) !important;
+    }
+  }
+}

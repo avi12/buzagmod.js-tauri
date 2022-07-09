@@ -1,0 +1,16 @@
+.s-expansion-panels {
+  position: sticky;
+  bottom: 0;
+}
+
+.btn-delete-collisions > .s-btn__content {
+  letter-spacing: 0.06em;
+}
+
+.s-expansion-panel {
+  color: var(--theme-text-primary) !important;
+}
+
+.list-item-mod-to-delete > .s-list-item__content {
+  padding: 0;
+}

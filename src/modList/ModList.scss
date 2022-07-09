@@ -1,0 +1,14 @@
+.s-app-bar__title {
+  padding-inline-start: 16px;
+  padding-left: 0 !important;
+}
+
+.s-dialog__content {
+  width: 50%;
+  height: 70%;
+  outline: 1px solid gray;
+}
+
+.theme--dark .s-dialog__content {
+  outline: 1px solid gray;
+}

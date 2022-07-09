@@ -1,0 +1,47 @@
+{
+  "root": true,
+  "env": {
+    "es2021": true,
+    "node": true,
+    "browser": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 12
+  },
+  "settings": {
+    "svelte3/typescript": true
+  },
+  "plugins": ["svelte3", "@typescript-eslint"],
+  "ignorePatterns": ["node_modules/**", "dist/**"],
+  "overrides": [
+    {
+      "files": ["*.svelte"],
+      "processor": "svelte3/svelte3"
+    }
+  ],
+  "rules": {
+    "indent": ["warn", 2],
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["warn", { "ignoreRestSiblings": true }],
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/consistent-type-imports": "error",
+    "@typescript-eslint/explicit-function-return-type": [
+      "warn",
+      {
+        "allowExpressions": true
+      }
+    ],
+    "semi": ["warn", "always"],
+    "prefer-const": "warn",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "object-curly-spacing": ["warn", "always"],
+    "arrow-parens": ["warn", "as-needed"]
+  }
+}

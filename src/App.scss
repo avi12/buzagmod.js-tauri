@@ -1,0 +1,12 @@
+html {
+  height: unset !important;
+}
+
+body::-webkit-scrollbar {
+  width: 0;
+}
+
+.s-app {
+  direction: rtl;
+  height: 100vh;
+}
