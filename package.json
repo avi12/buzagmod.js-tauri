@@ -40,6 +40,7 @@
     "@tauri-apps/api": "^1.0.2",
     "fflate": "^0.7.3",
     "md5": "^2.3.0",
+    "tauri-plugin-fs-extra-api": "github:tauri-apps/tauri-plugin-fs-extra",
     "uuid": "^8.3.2"
   }
 }
