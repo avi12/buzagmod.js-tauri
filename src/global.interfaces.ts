@@ -3,7 +3,6 @@ import {
   BaseDirectory,
   createDir,
   readBinaryFile,
-  readDir,
   readTextFile,
   removeFile,
   writeBinaryFile,
@@ -11,6 +10,8 @@ import {
 } from "@tauri-apps/api/fs";
 import { path } from "@tauri-apps/api";
 import { getIconDataUrl, Paths } from "./shared";
+import { exists } from "tauri-plugin-fs-extra-api";
+import { dirname } from "@tauri-apps/api/path";
 
 export type Mods = { [uuid: string]: ModSingle };
 
@@ -29,7 +30,7 @@ export interface ModMetadata {
 }
 
 enum PathModsFile {
-  enabled = "data\\data.json",
+  enabled = "data\\data.mods",
   disabled = "data\\disabled-mods.json"
 }
 
@@ -37,10 +38,9 @@ async function getPath(pathRelative: string): Promise<string> {
   return path.join(await path.appDir(), pathRelative);
 }
 
-async function exists(filename: string): Promise<boolean> {
-  const dir = await path.appDir();
-  const files = await readDir(dir);
-  return files.includes({ name: filename, path: dir });
+async function createJson(filenameRelative: PathModsFile, data: string): Promise<void> {
+  await createDir(await getPath(await dirname(filenameRelative)));
+  await writeTextFile(filenameRelative, data, { dir: BaseDirectory.App });
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -54,8 +54,8 @@ async function getModsJson(type: PathModsFile) {
 
 async function getIcon({ uuid }: { uuid: string }): Promise<string> {
   const pathIcon = await getPath(`${Paths.icon}/${uuid}.jpg`);
-  const iconData = (await readBinaryFile(pathIcon)) ?? new Buffer(0);
-  return getIconDataUrl(Buffer.from(iconData));
+  const iconData = (await readBinaryFile(pathIcon)) ?? new Uint8Array(0);
+  return getIconDataUrl(iconData);
 }
 
 export const Api = {
@@ -110,7 +110,7 @@ export const Api = {
         files: filenames
       }
     };
-    await writeTextFile(PathModsFile.enabled, JSON.stringify(modsJson), { dir: BaseDirectory.App });
+    await createJson(PathModsFile.enabled, JSON.stringify(modsJson));
     return true;
   },
 
@@ -138,7 +138,7 @@ export const Api = {
 
     await deleteFiles(jsonModsEnabled);
     delete jsonModsEnabled[uuid];
-    await writeTextFile(await getPath(PathModsFile.enabled), JSON.stringify(jsonModsEnabled));
+    await createJson(PathModsFile.enabled, JSON.stringify(jsonModsEnabled));
 
     return true;
   },
@@ -148,8 +148,8 @@ export const Api = {
     const jsonModsDisabled = await getModsJson(PathModsFile.disabled);
     jsonModsEnabled[uuid] = { ...jsonModsDisabled[uuid] };
     delete jsonModsDisabled[uuid];
-    await writeTextFile(await getPath(PathModsFile.enabled), jsonModsEnabled);
-    await writeTextFile(await getPath(PathModsFile.disabled), jsonModsDisabled);
+    await createJson(PathModsFile.enabled, jsonModsEnabled);
+    await createJson(PathModsFile.disabled, jsonModsDisabled);
     return true;
   },
   async disableMod(uuid): Promise<boolean> {
@@ -157,8 +157,8 @@ export const Api = {
     const jsonModsDisabled = await getModsJson(PathModsFile.disabled);
     jsonModsDisabled[uuid] = { ...jsonModsEnabled[uuid] };
     delete jsonModsEnabled[uuid];
-    await writeTextFile(await getPath(PathModsFile.enabled), jsonModsEnabled);
-    await writeTextFile(await getPath(PathModsFile.disabled), jsonModsDisabled);
+    await createJson(PathModsFile.enabled, jsonModsEnabled);
+    await createJson(PathModsFile.disabled, jsonModsDisabled);
     return true;
   }
 };
