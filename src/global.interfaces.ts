@@ -14,6 +14,7 @@ import { exists } from "tauri-plugin-fs-extra-api";
 import { dirname } from "@tauri-apps/api/path";
 
 export type Mods = { [uuid: string]: ModSingle };
+export type ModsLoaded = { [uuid: string]: ModMetadata };
 
 export interface ModSingle {
   files?: Unzipped;
@@ -43,8 +44,7 @@ async function createJson(filenameRelative: PathModsFile, data: string): Promise
   await writeTextFile(filenameRelative, data, { dir: BaseDirectory.App });
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-async function getModsJson(type: PathModsFile) {
+async function getModsJson(type: PathModsFile): Promise<ModsLoaded> {
   const pathAbsolute = await getPath(type);
   return exists(pathAbsolute)
     .then(isExists => (isExists ? readTextFile(pathAbsolute) : "{}"))
@@ -68,7 +68,7 @@ export const Api = {
     for (const uuid in jsonModsEnabled) {
       modsEnabled[uuid] = {
         icon: await getIcon({ uuid }),
-        metadata: jsonModsEnabled[uuid] as ModMetadata
+        metadata: jsonModsEnabled[uuid]
       };
     }
 
@@ -119,7 +119,7 @@ export const Api = {
     const jsonModsEnabled = await getModsJson(PathModsFile.enabled);
     const jsonModsDisabled = await getModsJson(PathModsFile.disabled);
 
-    const deleteFiles = async (jsonMods: Mods): Promise<void> => {
+    const deleteFiles = async (jsonMods: ModsLoaded): Promise<void> => {
       // Delete mod files
       // @ts-ignore
       for (const file of jsonMods[uuid].files) {
@@ -148,8 +148,8 @@ export const Api = {
     const jsonModsDisabled = await getModsJson(PathModsFile.disabled);
     jsonModsEnabled[uuid] = { ...jsonModsDisabled[uuid] };
     delete jsonModsDisabled[uuid];
-    await createJson(PathModsFile.enabled, jsonModsEnabled);
-    await createJson(PathModsFile.disabled, jsonModsDisabled);
+    await createJson(PathModsFile.enabled, JSON.stringify(jsonModsEnabled));
+    await createJson(PathModsFile.disabled, JSON.stringify(jsonModsDisabled));
     return true;
   },
   async disableMod(uuid): Promise<boolean> {
@@ -157,8 +157,8 @@ export const Api = {
     const jsonModsDisabled = await getModsJson(PathModsFile.disabled);
     jsonModsDisabled[uuid] = { ...jsonModsEnabled[uuid] };
     delete jsonModsEnabled[uuid];
-    await createJson(PathModsFile.enabled, jsonModsEnabled);
-    await createJson(PathModsFile.disabled, jsonModsDisabled);
+    await createJson(PathModsFile.enabled, JSON.stringify(jsonModsEnabled));
+    await createJson(PathModsFile.disabled, JSON.stringify(jsonModsDisabled));
     return true;
   }
 };
