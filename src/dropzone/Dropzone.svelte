@@ -15,12 +15,12 @@
   import { delay, duration } from "../core/transition-utils";
   import { getIsModInstallable, getMetadata } from "./is-mod-installable";
   import MD5 from "md5";
-  import type { Unzipped } from "fflate";
   import * as fflate from "fflate";
-  import type { ModMetadata } from "../global.interfaces";
-  import { Api } from "../global.interfaces";
   import "./Dropzone.scss";
   import { appWindow } from "@tauri-apps/api/window";
+  import { Api } from "../fs";
+  import type { Unzipped } from "fflate";
+  import type { ModMetadata } from "../global.interfaces";
   import type { UnlistenFn } from "@tauri-apps/api/event";
 
   const dispatch = createEventDispatcher();
