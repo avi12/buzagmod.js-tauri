@@ -1,6 +1,8 @@
 name: 'Tauri Publish'
 
-on: pull_request
+on:
+  push:
+    tags: ["v*"]
 
 jobs:
   create-release:
