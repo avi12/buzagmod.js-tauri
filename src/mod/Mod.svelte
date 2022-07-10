@@ -16,7 +16,7 @@
   import { v5 as UUID } from "uuid";
   import type { ModSingle } from "../global.interfaces";
   import "./Mod.scss";
-  import { Api } from "../global.interfaces";
+  import { Api } from "../fs";
 
   export let mod: ModSingle;
   // noinspection JSUnusedAssignment
@@ -55,7 +55,7 @@
     await Api.disableMod(uuid);
   }
 
-  async function enableModIfNotColliding(uuid: string): void {
+  async function enableModIfNotColliding(uuid: string): Promise<void> {
     const collidingModIds = getCollidingModIds($modsOff[uuid].metadata.files);
     if (collidingModIds.size === 0) {
       await enableMod(uuid);
