@@ -6,9 +6,10 @@
   import { theme } from "../core/dark-mode";
   import { fade } from "svelte/transition";
   import { flip } from "svelte/animate";
-  import Mod from "./Mod.svelte";
+  import { Api } from "../fs";
   import Dropzone from "../dropzone/Dropzone.svelte";
-  import ModCollisions from "./ModCollisions.svelte";
+  import Mod from "../mod/Mod.svelte";
+  import ModCollisions from "../modCollisions/ModCollisions.svelte";
   import "./ModList.scss";
 
   let isShowDropzone = false;
