@@ -7,7 +7,7 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "Buzagmod.js",
+    "productName": "Buzagmod",
     "version": "0.1.0"
   },
   "tauri": {
