@@ -42,12 +42,8 @@ jobs:
 
   build-tauri:
     needs: create-release
-    strategy:
-      fail-fast: false
-      matrix:
-        platform: [windows-latest]
 
-    runs-on: ${{ matrix.platform }}
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
       - name: install Rust stable
