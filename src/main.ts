@@ -1,6 +1,6 @@
 import { filesInUse, getModFilesToUuids, modsOff, modsOn } from "./shared";
+import { Api } from "./fs";
 import App from "./App.svelte";
-import { Api } from "./global.interfaces";
 
 async function main(): Promise<void> {
   const { modsEnabled, modsDisabled } = await Api.loadMods();
