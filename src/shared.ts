@@ -1,7 +1,7 @@
 import { get, writable } from "svelte/store";
 import { blobToDataUrl } from "@maruware/blob-to-base64";
+import { Api } from "./fs";
 import type { Mods } from "./global.interfaces";
-import { Api } from "./global.interfaces";
 
 export const modsOn = writable<Mods>({});
 export const modsOff = writable<Mods>({});
