@@ -2,15 +2,14 @@
   import { Button, ExpansionPanel, ExpansionPanels, Icon, ListItem } from "svelte-materialify";
   import { mdiDelete } from "@mdi/js";
   import { deleteMod, modCollisions } from "../shared";
-  import ModToDelete from "./ModToDelete.svelte";
+  import ModToDelete from "../modToDelete/ModToDelete.svelte";
   import "./ModCollisions.scss";
 
   export let lastModActive = "";
 
-  function deleteCollidingMods(): void {
-    for (const uuid of $modCollisions) {
-      deleteMod(uuid);
-    }
+  async function deleteCollidingMods(): Promise<void> {
+    const deleteQueue = [...$modCollisions].map(uuid => deleteMod(uuid));
+    await Promise.all(deleteQueue);
   }
 </script>
 
