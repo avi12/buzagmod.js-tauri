@@ -1,4 +1,4 @@
-name: 'Tauri'
+name: 'Tauri Release'
 
 on:
   push:
@@ -16,6 +16,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.2.2
+        with:
+          version: latest
+          run_install: true
       - name: get version
         run: echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
       - name: create release
@@ -45,11 +50,6 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v2
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2.2.2
-        with:
-          version: latest
-          run_install: true
       - name: install Rust stable
         uses: actions-rs/toolchain@v1
         with:
