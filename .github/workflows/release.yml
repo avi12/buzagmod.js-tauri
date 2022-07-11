@@ -21,7 +21,7 @@ jobs:
         uses: WyriHaximus/github-action-next-semvers@v1
         with:
           version: ${{ steps.previousTag.outputs.tag }}
-        run: echo "Version ${{ steps.semvers.outputs.patch }}"
+      - run: echo "Version ${{ steps.semvers.outputs.patch }}"
       - name: install Rust stable
         uses: actions-rs/toolchain@v1
         with:
