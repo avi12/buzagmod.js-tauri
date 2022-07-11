@@ -24,9 +24,14 @@ jobs:
           run_install: true
       - name: install app dependencies and build it
         run: pnpm i && pnpm build && pnpm tauri:build
-      - name: Get tag
-        id: tag
-        uses: dawidd6/action-get-tag@v1
+      - name: Get Previous tag
+        id: previousTag
+        uses: WyriHaximus/github-action-get-previous-tag@v1
+      - name: Get next minor version
+        id: semvers
+        uses: WyriHaximus/github-action-next-semvers@v1
+        with:
+          version: ${{ steps.previousTag.outputs.tag }}
       - name: Upload release assets (Windows)
         uses: ncipollo/release-action@v1
         with:
