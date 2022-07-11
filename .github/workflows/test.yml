@@ -9,8 +9,6 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Get the version
-        id: get-version
-        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
-      - name: Print
-        run: echo "${{ steps.get-version.outputs.VERSION }}"
+      - uses: olegtarasov/get-tag@v2.1
+        id: tagName
+      - run: echo ${{ steps.tagName.outputs.tag }}
