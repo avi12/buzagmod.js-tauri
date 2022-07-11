@@ -26,7 +26,7 @@ jobs:
         run: pnpm i && pnpm build && pnpm tauri:build
       - name: Get tag
         id: tag
-        uses: dawidd6/actionget-tag@v1
+        uses: dawidd6/action-get-tag@v1
       - name: Upload release assets (Windows)
         uses: ncipollo/release-action@v1
         with:
