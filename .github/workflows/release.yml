@@ -17,7 +17,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
-      - run: echo "Version ${{ steps.get-latest-tag.outputs }}"
+      - run: echo "Version ${{ steps.get-latest-tag }}"
       - name: setup node
         uses: actions/setup-node@v1
         with:
