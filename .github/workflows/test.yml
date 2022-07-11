@@ -17,4 +17,4 @@ jobs:
           script: |
             return github.context.ref.split('/').pop()
       - name: Print
-        run: echo "${{ steps.tag.outputs.result }}"
+        run: echo "${{ steps.tag.outputs }}"
