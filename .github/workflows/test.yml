@@ -1,0 +1,16 @@
+name: get-version
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  get-variable:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set env
+        id: version
+        run: echo "::set-output RELEASE_VERSION=GITHUB_REF#refs/*/"
+      - name: Get env
+        run: echo "${{ steps.version.outputs.RELEASE_VERSION }}"

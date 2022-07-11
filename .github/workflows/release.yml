@@ -1,6 +1,6 @@
-name: "publish"
+name: publish
 on:
-  push:
+  pull_request:
     branches:
       - main
 
@@ -8,7 +8,7 @@ jobs:
   publish-tauri:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set env
         id: version
         run: echo "::set-output RELEASE_VERSION=GITHUB_REF#refs/*/"
