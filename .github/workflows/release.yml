@@ -24,10 +24,13 @@ jobs:
           run_install: true
       - name: install app dependencies and build it
         run: pnpm i && pnpm build && pnpm tauri:build
+      - name: Get tag
+        id: tag
+        uses: dawidd6/actionget-tag@v1
       - name: Upload release assets (Windows)
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
           artifacts: src-tauri/target/release/Buzagmod.exe
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: "v${{ github.ref }}"
+          tag: v${{ steps.tag.outputs.tag }}
