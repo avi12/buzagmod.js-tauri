@@ -5,19 +5,16 @@ on:
       - main
 
 jobs:
-  get-latest-tag:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: get-latest-tag
-        id: semvers
-        uses: actions-ecosystem/action-get-latest-tag@v1
-
   publish-tauri:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
-      - run: echo "Version ${{ steps.get-latest-tag }}"
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: Test
+        run: |
+          echo $RELEASE_VERSION
+          echo ${{ env.RELEASE_VERSION }}
       - name: setup node
         uses: actions/setup-node@v1
         with:
