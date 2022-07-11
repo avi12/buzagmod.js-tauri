@@ -5,18 +5,23 @@ on:
       - main
 
 jobs:
+  get-latest-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: get-latest-tag
+        id: semvers
+        uses: actions-ecosystem/action-get-latest-tag@v1
+
   publish-tauri:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
+      - run: echo "Version ${{ steps.get-latest-tag.outputs }}"
       - name: setup node
         uses: actions/setup-node@v1
         with:
           node-version: 16
-      - name: get-latest-tag
-        id: semvers
-        uses: actions-ecosystem/action-get-latest-tag@v1
-      - run: echo "Version ${{ steps.get-latest-tag.outputs }}"
       - name: install Rust stable
         uses: actions-rs/toolchain@v1
         with:
