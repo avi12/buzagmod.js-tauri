@@ -9,5 +9,12 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Get tag name
-        run: echo "${GITHUB_REF##*/}"
+      - name: Extract tag name
+        id: tag
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            return github.context.ref.split('/').pop()
+      - name: Print
+        run: echo "${{ steps.tag.outputs.result }}"
