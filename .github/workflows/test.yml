@@ -15,6 +15,4 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            return JSON.stringify(github.context);
-      - name: Print
-        run: echo "${{ steps.tag.outputs.result }}"
+            console.log(JSON.stringify(github.context));
