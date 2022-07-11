@@ -30,3 +30,4 @@ jobs:
           allowUpdates: true
           artifacts: target/release/Buzagmod.exe
           token: ${{ secrets.GITHUB_TOKEN }}
+          tag: v${{ process.env.PACKAGE_VERSION }}
