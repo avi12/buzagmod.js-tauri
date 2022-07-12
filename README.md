@@ -7,9 +7,10 @@ Inspired by [Buzagmod](https://github.com/open-day-dev/buzagmod)
 
 ## Getting started
 1. Windows: install [Microsoft Edge WebView2 Evergreen Bootstrapper](https://developer.microsoft.com/en-us/microsoft-edge/webview2/#:~:text=Evergreen%20Bootstrapper)
-2. Clone the repository
-3. Install [PNPM](https://pnpm.io/installation)
-4. ```shell
+2. Install [Rust](https://www.rust-lang.org/learn/get-started)
+3. Clone the repository
+4. Install [PNPM](https://pnpm.io/installation)
+5. ```shell
    pnpm i
    pnpm tauri
    ```
