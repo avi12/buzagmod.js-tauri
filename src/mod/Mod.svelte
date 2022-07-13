@@ -36,7 +36,13 @@
 
     $filesInUse = getModFilesToUuids();
 
-    await Api.enableMod(uuid);
+    // Enabling the mod on the file system
+    const jsonModsEnabled = await getModsJson(PathModsFile.enabled);
+    const jsonModsDisabled = await getModsJson(PathModsFile.disabled);
+    jsonModsEnabled[uuid] = { ...jsonModsDisabled[uuid] };
+    delete jsonModsDisabled[uuid];
+    await createOrUpdateJson(PathModsFile.enabled, JSON.stringify(jsonModsEnabled));
+    await createOrUpdateJson(PathModsFile.disabled, JSON.stringify(jsonModsDisabled));
   }
 
   async function disableMod(uuid): Promise<void> {
@@ -52,7 +58,13 @@
       }
     }
 
-    await Api.disableMod(uuid);
+    // Disabling the mod on the file system
+    const jsonModsEnabled = await getModsJson(PathModsFile.enabled);
+    const jsonModsDisabled = await getModsJson(PathModsFile.disabled);
+    jsonModsDisabled[uuid] = { ...jsonModsEnabled[uuid] };
+    delete jsonModsEnabled[uuid];
+    await createOrUpdateJson(PathModsFile.enabled, JSON.stringify(jsonModsEnabled));
+    await createOrUpdateJson(PathModsFile.disabled, JSON.stringify(jsonModsDisabled));
   }
 
   async function enableModIfNotColliding(uuid: string): Promise<void> {

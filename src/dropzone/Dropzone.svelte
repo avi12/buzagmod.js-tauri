@@ -45,15 +45,31 @@
     const fileEntries = Object.fromEntries(
       Object.entries(zipEntries).filter(([path]: [string, Uint8Array]) => !path.endsWith("/"))
     );
-    await Api.addMod({
-      fileEntries,
-      uuid,
-      metadata: {
-        author,
-        name,
-        description
+    const files: string[] = [];
+
+    // Create all the files
+    for (const pathCurrent in fileEntries) {
+      const data = fileEntries[pathCurrent];
+      const pathFull = await getPath(pathCurrent);
+      await createDir(await path.dirname(pathCurrent), { recursive: true, dir: BaseDirectory.App });
+      await writeBinaryFile(pathFull, data);
+      files.push(pathCurrent.replace(Paths.content, ""));
+    }
+
+    // Add as entry to data.mods
+    const modsFileContent = await getModsJson(PathModsFile.enabled);
+    const modsJson = {
+      ...modsFileContent,
+      [uuid]: {
+        files,
+        metadata: {
+          author,
+          name,
+          description
+        }
       }
-    });
+    };
+    await createOrUpdateJson(PathModsFile.enabled, JSON.stringify(modsJson));
   }
 
   async function getIcon({ zipEntries, uuid }: { uuid: string; zipEntries?: Unzipped }): Promise<string> {

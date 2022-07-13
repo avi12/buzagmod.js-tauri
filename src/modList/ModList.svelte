@@ -33,7 +33,7 @@
     }
   }
 
-  function deleteAllMods(): void {
+  async function deleteAllMods(): Promise<void> {
     $modsOn = {};
     $modsOff = {};
     $modCollisions.clear();
@@ -41,11 +41,11 @@
     $filesInUse = {};
 
     for (const modId in $modsOn) {
-      Api.deleteMod(modId);
+      await deleteModFromFs(modId);
     }
 
     for (const modId in $modsOff) {
-      Api.deleteMod(modId);
+      await deleteModFromFs(modId);
     }
   }
 

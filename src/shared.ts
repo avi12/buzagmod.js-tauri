@@ -1,6 +1,6 @@
 import { get, writable } from "svelte/store";
 import { blobToDataUrl } from "@maruware/blob-to-base64";
-import { Api } from "./fs";
+import { deleteModFromFs } from "./fs";
 import type { Mods } from "./global.interfaces";
 
 export const modsOn = writable<Mods>({});
@@ -29,9 +29,7 @@ export function getModFilesToUuids(): { [filename: string]: string } {
 }
 
 export async function deleteMod(uuid: string): Promise<void> {
-  if (!(await Api.deleteMod(uuid))) {
-    return;
-  }
+  await deleteModFromFs(uuid);
   filesInUse.update(files => {
     for (const filename in files) {
       if (files[filename] === uuid) {
