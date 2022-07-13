@@ -26,7 +26,7 @@
 
   let isShowError = false;
   let isModEnabled = Boolean($modsOn[uuid]);
-  $: src = mod?.icon !== "data:" ? mod?.icon : "logo.png";
+  $: src = mod?.icon !== "data:" ? mod?.icon : logo;
 
   const dispatch = createEventDispatcher();
 
@@ -102,8 +102,11 @@
   </span>
   {mod?.metadata.name}
   <div slot="subtitle">
-    <div>{mod?.metadata.description}</div>
-    <div>מאת: {mod?.metadata.author}</div>
+    {#if mod}
+      <div>{mod.metadata.description}</div>
+      <div>מאת: {mod.metadata.author}</div>
+      <div>{mod.metadata.md5}</div>
+    {/if}
   </div>
   <span slot="append">
     <Button icon on:click={() => deleteMod(uuid)}>
