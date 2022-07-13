@@ -1,15 +1,15 @@
 <script lang="ts">
   import { AppBar, Button, Dialog, Icon, Tooltip } from "svelte-materialify";
   import { mdiDelete, mdiPlus } from "@mdi/js";
-  import { errorMessage, filesInUse, modCollisions, modsOff, modsOn } from "../shared";
-  import { delay, duration } from "../core/transition-utils";
-  import { theme } from "../core/dark-mode";
   import { fade } from "svelte/transition";
   import { flip } from "svelte/animate";
-  import { Api } from "../fs";
   import Dropzone from "../dropzone/Dropzone.svelte";
   import Mod from "../mod/Mod.svelte";
   import ModCollisions from "../modCollisions/ModCollisions.svelte";
+  import { errorMessage, filesInUse, modCollisions, modsOff, modsOn } from "../shared";
+  import { delay, duration } from "../core/transition-utils";
+  import { theme } from "../core/dark-mode";
+  import { deleteModFromFs } from "../fs";
   import "./ModList.scss";
 
   let isShowDropzone = false;

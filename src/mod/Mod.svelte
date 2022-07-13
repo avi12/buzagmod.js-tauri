@@ -1,6 +1,8 @@
 <script lang="ts">
-  import { Avatar, Button, Checkbox, Icon, ListItem } from "svelte-materialify";
+  import { v5 as UUID } from "uuid";
+  import { createEventDispatcher } from "svelte";
   import { mdiDelete } from "@mdi/js";
+  import { Avatar, Button, Checkbox, Icon, ListItem } from "svelte-materialify";
   import {
     deleteMod,
     errorMessage,
@@ -11,12 +13,12 @@
     modsOn,
     UUID_FIXED
   } from "../shared";
-  import { createEventDispatcher } from "svelte";
   import { getCollidingModIds } from "../dropzone/is-mod-installable";
-  import { v5 as UUID } from "uuid";
+  import logo from "../assets/logo.png";
+  import { createOrUpdateJson, getModsJson } from "../fs";
   import type { ModSingle } from "../global.interfaces";
+  import { PathModsFile } from "../global.interfaces";
   import "./Mod.scss";
-  import { Api } from "../fs";
 
   export let mod: ModSingle;
   // noinspection JSUnusedAssignment

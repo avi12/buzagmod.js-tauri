@@ -1,6 +1,6 @@
-import { filesInUse, modCollisions, Paths } from "../shared";
 import { get } from "svelte/store";
 import type { Unzipped } from "fflate";
+import { filesInUse, modCollisions, Paths } from "../shared";
 
 export function getMetadata({ zipObjRaw }: { zipObjRaw: Unzipped }): {
   name?: string;

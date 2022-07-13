@@ -1,8 +1,19 @@
 <script lang="ts">
+  import type { Unzipped } from "fflate";
+  import * as fflate from "fflate";
+  import MD5 from "md5";
   import { Card } from "svelte-materialify";
   import { createEventDispatcher, onDestroy, onMount } from "svelte";
   import { fade } from "svelte/transition";
   import { v5 as UUID } from "uuid";
+  import { appWindow } from "@tauri-apps/api/window";
+  import type { UnlistenFn } from "@tauri-apps/api/event";
+  import { BaseDirectory, createDir, writeBinaryFile } from "@tauri-apps/api/fs";
+  import { path } from "@tauri-apps/api";
+  import { createOrUpdateJson, getModsJson, getPath } from "../fs";
+  import type { ModMetadata } from "../global.interfaces";
+  import { PathModsFile } from "../global.interfaces";
+  import { delay, duration } from "../core/transition-utils";
   import {
     errorMessage,
     getIconDataUrl,
@@ -12,16 +23,8 @@
     regexSupportedFiles,
     UUID_FIXED
   } from "../shared";
-  import { delay, duration } from "../core/transition-utils";
   import { getIsModInstallable, getMetadata } from "./is-mod-installable";
-  import MD5 from "md5";
-  import * as fflate from "fflate";
   import "./Dropzone.scss";
-  import { appWindow } from "@tauri-apps/api/window";
-  import { Api } from "../fs";
-  import type { Unzipped } from "fflate";
-  import type { ModMetadata } from "../global.interfaces";
-  import type { UnlistenFn } from "@tauri-apps/api/event";
 
   const dispatch = createEventDispatcher();
 

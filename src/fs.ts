@@ -1,19 +1,10 @@
 import { path } from "@tauri-apps/api";
-import {
-  BaseDirectory,
-  createDir,
-  readBinaryFile,
-  readTextFile,
-  removeFile,
-  writeBinaryFile,
-  writeTextFile
-} from "@tauri-apps/api/fs";
+import { BaseDirectory, createDir, readBinaryFile, readTextFile, removeFile, writeTextFile } from "@tauri-apps/api/fs";
 import { dirname } from "@tauri-apps/api/path";
 import { exists } from "tauri-plugin-fs-extra-api";
 import { getIconDataUrl, Paths } from "./shared";
-import type { ModMetadata, Mods, ModsLoaded } from "./global.interfaces";
 import { PathModsFile } from "./global.interfaces";
-import type { Unzipped } from "fflate";
+import type { ModsLoaded } from "./global.interfaces";
 
 export async function getPath(pathRelative: string): Promise<string> {
   return path.join(await path.appDir(), pathRelative);

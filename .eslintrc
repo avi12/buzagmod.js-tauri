@@ -18,7 +18,7 @@
   "settings": {
     "svelte3/typescript": true
   },
-  "plugins": ["svelte3", "@typescript-eslint"],
+  "plugins": ["svelte3", "@typescript-eslint", "import"],
   "ignorePatterns": ["node_modules/**", "dist/**"],
   "overrides": [
     {
@@ -29,7 +29,12 @@
   "rules": {
     "indent": ["warn", 2],
     "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": ["warn", { "ignoreRestSiblings": true }],
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "ignoreRestSiblings": true
+      }
+    ],
     "@typescript-eslint/no-var-requires": "off",
     "@typescript-eslint/consistent-type-imports": "error",
     "@typescript-eslint/explicit-function-return-type": [
@@ -42,6 +47,7 @@
     "prefer-const": "warn",
     "@typescript-eslint/ban-ts-comment": "off",
     "object-curly-spacing": ["warn", "always"],
-    "arrow-parens": ["warn", "as-needed"]
+    "arrow-parens": ["warn", "as-needed"],
+    "import/order": ["warn"]
   }
 }
