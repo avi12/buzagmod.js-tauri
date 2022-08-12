@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Unzipped } from "fflate";
+  import type { UnzipFileInfo, Unzipped } from "fflate";
   import * as fflate from "fflate";
   import MD5 from "md5";
   import { Card } from "svelte-materialify";
@@ -86,7 +86,7 @@
       zipEntries[getIconPath(uuid)] = zipObjRaw[pathIconOriginal];
     }
     for (const path in zipEntries) {
-      if (path !== Paths.content && !path.match(regexSupportedFiles)) {
+      if (path !== Paths.content) {
         delete zipEntries[path];
       }
     }
@@ -102,7 +102,9 @@
       return;
     }
 
-    const zipObjRaw = fflate.unzipSync(new Uint8Array(await file.arrayBuffer()));
+    const zipObjRaw = fflate.unzipSync(new Uint8Array(await file.arrayBuffer()), {
+      filter: (file: UnzipFileInfo) => new RegExp(`${regexSupportedFiles.source}|mod.txt`).test(file.name)
+    });
     const { name, description, author } = getMetadata({ zipObjRaw });
     const uuid = UUID(name, UUID_FIXED);
     const zipEntries = getZipEntries({ zipObjRaw, uuid });
@@ -126,9 +128,7 @@
           description,
           author,
           md5: new MD5(file),
-          files: Object.keys(zipEntries)
-            .map(path => path.replace(Paths.content, ""))
-            .filter(path => path && !path.match(regexSupportedFiles))
+          files: Object.keys(zipEntries).map(path => path.replace(Paths.content, ""))
         }
       }
     } as ModMetadata);
